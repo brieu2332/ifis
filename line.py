@@ -31,6 +31,8 @@ class Seta:
         pygame.draw.line(tela, self.cor, (self.ox + x, self.oy + y), (self.ox + x2, self.oy + y2), self.espessura)
         pygame.draw.line(tela, self.cor, (self.ox + x, self.oy + y), (self.ox + x3, self.oy + y3), self.espessura)
 
+        
+
 class Jogo:
     def __init__(self, largura = 800, altura = 800, distancia_entre_etas = 39):
         pygame.init()
