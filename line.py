@@ -3,23 +3,25 @@ from math import cos, sin, pi, atan2
 
 
 class Seta:
-    def __init__(self, cor, ox, oy, r, espessura):
+    def __init__(self, cor, ox, oy, r, espessura, destino_x, destino_y):
         self.cor = cor
         self.ox = ox
         self.oy = oy
         self.r = r
         self.espessura = espessura
         self.a = 0
+        self.destino_x = destino_x 
+        self.destino_y = destino_y
 
-    def desenhar(self, tela, destino_x, destino_y):
+    def desenhar(self, tela):
         # retorna o ângulo (em radianos) cujo seno e cosseno correspondem às coordenadas y e x. Ela é usada para calcular o ângulo de rotação entre dois pontos no plano cartesiano.
-        self.a = atan2(destino_y - self.oy, destino_x - self.ox)
+        self.a = atan2(self.destino_y - self.oy, self.destino_x - self.ox)
         
         x = self.r * cos(self.a)
         y = self.r * sin(self.a)
 
-        b = self.a - 2.35619
-        c = self.a + 2.35619
+        b = self.a + 3 * pi / 4
+        c = self.a + 5 * pi / 4
         r2 = self.r / 3
 
         x2 = (r2 * cos(b)) + x
@@ -34,7 +36,7 @@ class Seta:
         
 
 class Jogo:
-    def __init__(self, largura = 800, altura = 800, distancia_entre_etas = 39):
+    def __init__(self, largura = 800, altura = 800, distancia_entre_etas = 42):
         pygame.init()
         self.largura = largura
         self.altura = altura
@@ -48,7 +50,7 @@ class Jogo:
             for y in range(0, altura, distancia_entre_etas):
                 r = 15# tamanho seta
                 espessura = 2  
-                self.setas.append(Seta(self.cor_branca, x, y, r, espessura))
+                self.setas.append(Seta(self.cor_branca, x, y, r, espessura, 0, 0))
                 
 
     def executar(self):
@@ -61,7 +63,10 @@ class Jogo:
             self.tela.fill(0)
             
             for seta in self.setas:
-                seta.desenhar(self.tela, mouse_x, mouse_y)
+                seta.destino_x = mouse_x
+                seta.destino_y = mouse_y
+
+                seta.desenhar(self.tela)
             
             pygame.display.flip()
         

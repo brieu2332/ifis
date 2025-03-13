@@ -54,7 +54,7 @@ sol = Sol(posicao=(largura - 300, altura / 2))
 terra = Terra(posicao=(150, altura / 1.5))
 
 # Cria uma grade de setas (usando a classe Seta do line.py)
-setas = [Seta((255, 255, 255), x, y, 15, 2) 
+setas = [Seta((255, 255, 255), x, y, 15, 2, 0, 0) 
          for x in range(0, largura, 39) 
          for y in range(0, altura, 39)]
 
@@ -88,13 +88,16 @@ while rodando:
             distancia = direcao.length()
             if distancia != 0:
                 # Influência simplificada: proporcional à massa e inversamente proporcional ao quadrado da distância
-                f_mag = corpo.massa / (distancia ** 2)
+                f_mag = corpo.massa / (distancia ** 5)
                 forca_total += direcao.normalize() * f_mag
         # Fator de escala para visualização
         fator = 100
         destino_x = seta.ox + forca_total.x * fator
         destino_y = seta.oy + forca_total.y * fator
-        seta.desenhar(tela, destino_x, destino_y)
+        
+        seta.destino_x = destino_x
+        seta.destino_y = destino_y
+        seta.desenhar(tela)
 
     pygame.display.flip()
     clock.tick(60)
